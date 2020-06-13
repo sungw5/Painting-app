@@ -1,4 +1,10 @@
 const canvas = document.querySelector(".js-canvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = 1000;
+canvas.height = 650;
+ctx.strokeStyle = "black";
+ctx.lineWidth = 2.5;
 
 let painting = false; // initial value of painting
 
@@ -6,6 +12,17 @@ let painting = false; // initial value of painting
 function onMouseMove(event) {
   const x = event.offsetX;
   const y = event.offsetY;
+  if (!painting) {
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+  } else {
+    ctx.lineTo(x, y);
+    ctx.stroke();
+  }
+}
+
+function startPainting() {
+  painting = true;
 }
 
 function stopPainting() {
@@ -17,14 +34,9 @@ function onMouseDown(event) {
   painting = true;
 }
 
-// when not click
-function onMouseUp(event) {
-  stopPainting();
-}
-
 if (canvas) {
   canvas.addEventListener("mousemove", onMouseMove); // when move the mouse
-  canvas.addEventListener("mousedown", onMouseDown); // when click
-  canvas.addEventListener("mouseup", onMouseUp); // when unclick
+  canvas.addEventListener("mousedown", startPainting); // when click
+  canvas.addEventListener("mouseup", stopPainting); // when unclick
   canvas.addEventListener("mouseleave", stopPainting);
 }
