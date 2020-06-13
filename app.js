@@ -3,12 +3,16 @@ const ctx = canvas.getContext("2d");
 const colors = document.getElementsByClassName("controls-color");
 const range = document.getElementById("js-brushrange");
 const mode = document.getElementById("js-mode");
-
+const save = document.getElementById("js-save");
 /******************** default values initialization *********************/
 const INITIAL_COLOR = "black";
 
 canvas.width = 1000;
 canvas.height = 650;
+
+ctx.fillStyle = "white"; // default canvas background color
+ctx.fillRect(0, 0, canvas.width, canvas.height); // default canvas backgournd color (you will see the difference when save the drawn image)
+
 ctx.strokeStyle = INITIAL_COLOR; // default stroke style (default brush color)
 ctx.fillStyle = INITIAL_COLOR; // default fill style (default fill color)
 ctx.lineWidth = 2.5; // default range point (default brush size)
@@ -69,6 +73,20 @@ function handleCanvasClick() {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
 }
+
+// to make user to save image via button not right click //
+function handleRightClick(event) {
+  event.preventDefault(); // now nothing happens when right click
+}
+
+// download the image!! //
+function handleSaveClick() {
+  const image = canvas.toDataURL("image/jpeg"); // default is png, but for example, I set jpeg
+  const link = document.createElement("a");
+  link.href = image;
+  link.download = "YourPaintImage";
+  link.click();
+}
 /************************** Event Listners ************************************/
 
 // mouse activity event listener
@@ -76,15 +94,15 @@ if (canvas) {
   canvas.addEventListener("mousemove", onMouseMove); // when move the mouse
   canvas.addEventListener("mousedown", startPainting); // when click
   canvas.addEventListener("mouseup", stopPainting); // when unclick
-  canvas.addEventListener("mouseleave", stopPainting);
-  canvas.addEventListener("click", handleCanvasClick);
+  canvas.addEventListener("mouseleave", stopPainting); // when cursor out of canvas
+  canvas.addEventListener("click", handleCanvasClick); // when click canvas
+  canvas.addEventListener("contextmenu", handleRightClick); // when right click on canvas
 }
 
 // color change event listner //
 Array.from(colors).forEach((color) =>
   color.addEventListener("click", handleColorClick)
 );
-
 // brush size range event listener //
 if (range) {
   range.addEventListener("input", handleRangeChange);
@@ -92,4 +110,8 @@ if (range) {
 // mode change event listener //
 if (mode) {
   mode.addEventListener("click", handleModeClick);
+}
+// download event listener //
+if (save) {
+  save.addEventListener("click", handleSaveClick);
 }
