@@ -5,6 +5,7 @@ const range = document.getElementById("js-brushrange");
 const mode = document.getElementById("js-mode");
 const save = document.getElementById("js-save");
 const undo = document.getElementById("js-undo");
+const redo = document.getElementById("js-redo");
 /******************** default values initialization *********************/
 const INITIAL_COLOR = "black";
 
@@ -23,7 +24,8 @@ let filling = false; // initial value of fill
 
 let savedData;
 let undoStack = [];
-let undoLimit = 3;
+let redoStack = [];
+let undoLimit = 5;
 
 /************************** functions ************************************/
 
@@ -48,7 +50,7 @@ function startPainting(event) {
   // save image data for undo later
   savedData = ctx.getImageData(0, 0, canvas.clientWidth, canvas.clientHeight);
   console.log(savedData);
-  if (undoStack.length >= undoLimit) undoStack.shift; // remove oldest data
+  if (undoStack.length >= undoLimit) undoStack.shift(); // remove oldest data
   undoStack.push(savedData); // push saved image data
 }
 function stopPainting() {
@@ -104,9 +106,27 @@ function handleSaveClick() {
 function handleUndo() {
   if (undoStack.length > 0) {
     ctx.putImageData(undoStack[undoStack.length - 1], 0, 0);
-    undoStack.pop();
+    let undoPopped = undoStack.pop();
+    // push popped element into the redo stack
+    if (redoStack >= undoLimit) redoStack.shift();
+    redoStack.push(undoPopped);
+    console.log(undoStack);
+    console.log(redoStack);
   } else {
     alert("No undo available");
+  }
+}
+
+function handleRedo() {
+  if (redoStack.length > 0) {
+    ctx.putImageData(redoStack[redoStack.length - 2], 0, 0);
+    let redoPopped = redoStack.pop();
+    undoStack.shift();
+    undoStack.push(redoPopped);
+    console.log(undoStack);
+    console.log(redoStack);
+  } else {
+    alert("No redo available");
   }
 }
 /************************** Event Listners ************************************/
@@ -140,4 +160,7 @@ if (save) {
 
 if (undo) {
   undo.addEventListener("click", handleUndo);
+}
+if (redo) {
+  redo.addEventListener("click", handleRedo);
 }
