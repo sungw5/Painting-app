@@ -6,9 +6,12 @@
     <link rel="stylesheet" href="styles.css" />
     <title>Paint!</title>
   </head>
+
   <body>
     <canvas id="js-canvas" class="js-canvas"></canvas>
+    <!-- Brush size, Color picker, Buttons -->
     <div class="controls">
+      <!-- Brush size range -->
       <div class="controls-brushrange">
         <input
           type="range"
@@ -19,12 +22,14 @@
           step="0.1"
         />
       </div>
+      <!--Fill, Save / Undo, Redo -->
       <div class="controls-btns">
         <button id="js-mode">Fill</button><button id="js-save">Save</button>
         <div class="unredo">
           <button id="js-undo">Undo</button><button id="js-redo">Redo</button>
         </div>
       </div>
+      <!-- Color picker -->
       <div class="controls-colors" id="jsColors">
         <div class="controls-color" style="background-color: black;"></div>
         <div class="controls-color" style="background-color: white;"></div>

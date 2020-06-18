@@ -67,6 +67,10 @@ body {
   margin: 4px 4px 4px 10px;
 }
 
+.controls-colors .controls-color:active {
+  transform: scale(0.94);
+}
+
 .controls .controls-brushrange {
   position: absolute;
   top: 12%;
