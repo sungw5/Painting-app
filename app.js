@@ -4,6 +4,7 @@ const colors = document.getElementsByClassName("controls-color");
 const range = document.getElementById("js-brushrange");
 const mode = document.getElementById("js-mode");
 const save = document.getElementById("js-save");
+const undo = document.getElementById("js-undo");
 /******************** default values initialization *********************/
 const INITIAL_COLOR = "black";
 
@@ -19,6 +20,11 @@ ctx.lineWidth = 2.5; // default range point (default brush size)
 
 let painting = false; // initial value of painting
 let filling = false; // initial value of fill
+
+let savedData;
+let undoStack = [];
+let undoLimit = 3;
+
 /************************** functions ************************************/
 
 // when move the mouse //
@@ -26,17 +32,24 @@ function onMouseMove(event) {
   const x = event.offsetX;
   const y = event.offsetY;
   if (!painting) {
+    // when not painting (mouseup)
     ctx.beginPath();
-    ctx.moveTo(x, y);
+    ctx.moveTo(x, y); // 사실 여기서 else 로 넘어감 왜냐면 클릭하거나 안하거나 둘밖에 없기때문에
   } else {
+    // when painting (mousedown)
     ctx.lineTo(x, y);
     ctx.stroke();
   }
 }
 
 // painting status
-function startPainting() {
+function startPainting(event) {
   painting = true;
+  // save image data for undo later
+  savedData = ctx.getImageData(0, 0, canvas.clientWidth, canvas.clientHeight);
+  console.log(savedData);
+  if (undoStack.length >= undoLimit) undoStack.shift; // remove oldest data
+  undoStack.push(savedData); // push saved image data
 }
 function stopPainting() {
   painting = false;
@@ -87,6 +100,15 @@ function handleSaveClick() {
   link.download = "YourPaintImage";
   link.click();
 }
+
+function handleUndo() {
+  if (undoStack.length > 0) {
+    ctx.putImageData(undoStack[undoStack.length - 1], 0, 0);
+    undoStack.pop();
+  } else {
+    alert("No undo available");
+  }
+}
 /************************** Event Listners ************************************/
 
 // mouse activity event listener
@@ -114,4 +136,8 @@ if (mode) {
 // download event listener //
 if (save) {
   save.addEventListener("click", handleSaveClick);
+}
+
+if (undo) {
+  undo.addEventListener("click", handleUndo);
 }
