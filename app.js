@@ -47,11 +47,6 @@ function onMouseMove(event) {
 
 // painting status
 function startPainting(event) {
-  if (event.touches) {
-    event.preventDefault();
-    event = event.touches[0];
-  }
-
   painting = true;
   // save image data for undo later
   savedData = ctx.getImageData(0, 0, canvas.clientWidth, canvas.clientHeight);
@@ -137,12 +132,21 @@ function handleRedo() {
     alert("No more redos available");
   }
 }
+
+function touchStart(e) {
+  startPainting(event.touches[0]);
+}
+function touchMove(e) {
+  onMouseMove(event.touches[0]);
+  event.preventDefault();
+}
+
 /************************** Event Listners ************************************/
 
 // mouse activity event listener
 if (canvas) {
-  canvas.addEventListener("touchstart", onMouseMove);
-  canvas.addEventListener("touchstart", startPainting);
+  canvas.addEventListener("touchstart", touchStart);
+  canvas.addEventListener("touchmove", touchMove);
   canvas.addEventListener("touchstart", handleCanvasClick);
 
   canvas.addEventListener("mousemove", onMouseMove); // when move the mouse
