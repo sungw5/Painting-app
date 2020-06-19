@@ -141,7 +141,7 @@ function handleRedo() {
 
 // mouse activity event listener
 if (canvas) {
-  canvas.addEventListener("touchmove", onMouseMove);
+  canvas.addEventListener("touchstart", onMouseMove);
   canvas.addEventListener("touchstart", startPainting);
   canvas.addEventListener("touchstart", handleCanvasClick);
 
