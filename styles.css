@@ -1,4 +1,5 @@
 @import "reset.css";
+/* Layer z-index : .js-backgroundCanvas(0) < .js-canvas(1) + .controls(1)  */
 
 body {
   background-color: #f6f9fc;
@@ -7,8 +8,11 @@ body {
   display: flex;
 }
 
+/****************************** Canvas  *******************************/
 .js-canvas {
+  z-index: 1;
   display: flex;
+  position: relative;
   flex-direction: column;
   align-items: flex-start;
   background-color: white;
@@ -21,9 +25,12 @@ body {
 }
 
 .controls {
+  z-index: 1;
   display: flex;
   flex-direction: column;
 }
+
+/* Control Buttons: Fill, Save, Undo, Redo */
 .controls .controls-btns {
   display: flex;
   position: absolute;
@@ -52,6 +59,7 @@ body {
   transform: scale(0.94);
 }
 
+/* Color Picker */
 .controls .controls-colors {
   display: flex;
   flex-direction: column;
@@ -62,7 +70,7 @@ body {
 .controls-colors .controls-color {
   width: 50px;
   height: 50px;
-  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+  /* box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08); */
   border-radius: 30px;
   margin: 4px 4px 4px 10px;
 }
@@ -71,8 +79,22 @@ body {
   transform: scale(0.94);
 }
 
+/* Brush Size Range */
 .controls .controls-brushrange {
   position: absolute;
   top: 12%;
   left: 82%;
+}
+
+/***********************  Background Canvas  ***************************/
+.js-backgroundCanvas {
+  z-index: 0;
+  min-height: 100%;
+  min-width: 100%;
+  background-size: cover;
+  top: 0;
+  left: 0;
+  position: fixed;
+  width: 100%;
+  height: auto;
 }
