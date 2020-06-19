@@ -143,6 +143,7 @@ function handleRedo() {
 if (canvas) {
   canvas.addEventListener("touchmove", onMouseMove); // when move the mouse
   canvas.addEventListener("touchstart", startPainting); // when click
+  canvas.addEventListener("touchstart", handleCanvasClick); // when click canvas
   canvas.addEventListener("touchend", stopPainting); // when unclick
   canvas.addEventListener("mousemove", onMouseMove); // when move the mouse
   canvas.addEventListener("mousedown", startPainting); // when click
