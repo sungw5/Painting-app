@@ -47,6 +47,11 @@ function onMouseMove(event) {
 
 // painting status
 function startPainting(event) {
+  if (event.touches) {
+    event.preventDefault();
+    event = event.touches[0];
+  }
+
   painting = true;
   // save image data for undo later
   savedData = ctx.getImageData(0, 0, canvas.clientWidth, canvas.clientHeight);
@@ -136,6 +141,9 @@ function handleRedo() {
 
 // mouse activity event listener
 if (canvas) {
+  canvas.addEventListener("touchmove", onMouseMove); // when move the mouse
+  canvas.addEventListener("touchstart", startPainting); // when click
+  canvas.addEventListener("touchend", stopPainting); // when unclick
   canvas.addEventListener("mousemove", onMouseMove); // when move the mouse
   canvas.addEventListener("mousedown", startPainting); // when click
   canvas.addEventListener("mouseup", stopPainting); // when unclick
@@ -221,7 +229,7 @@ function handleEvent(e) {
   }
   // local variables
   let currentColor = colorPicker.current();
-  // let nextColor = colorPicker.next();
+  let nextColor = colorPicker.next();
   let targetR = calcPageFillRadius(e.pageX, e.pageY);
   let rippleSize = Math.min(200, bcW * 0.4);
   let minCoverDuration = 8000;
