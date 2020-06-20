@@ -54,6 +54,7 @@ function startPainting(event) {
   if (undoStack.length >= undoLimit) undoStack.shift(); // remove oldest data
   undoStack.push(savedData); // push saved image data
 }
+
 function stopPainting() {
   painting = false;
 }
@@ -138,7 +139,7 @@ function touchStart(e) {
 }
 function touchMove(e) {
   onMouseMove(event.touches[0]);
-  event.preventDefault();
+  // event.preventDefault();
 }
 
 /************************** Event Listners ************************************/
