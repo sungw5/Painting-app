@@ -78,10 +78,10 @@ function handleRangeChange(event) {
 function handleModeClick() {
   if (filling === true) {
     filling = false;
-    mode.innerText = "Fill";
+    mode.innerHTML = `<i class="fas fa-fill"></i> Fill`;
   } else {
     filling = true;
-    mode.innerText = "Paint";
+    mode.innerHTML = `<i class="fas fa-paint-brush"></i> Paint`;
   }
 }
 

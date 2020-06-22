@@ -3,10 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- font awesome for icons -->
+    <script
+      src="https://kit.fontawesome.com/e72b0a8231.js"
+      crossorigin="anonymous"
+    ></script>
     <link rel="stylesheet" href="styles.css" />
     <title>Paint!</title>
   </head>
   <canvas id="js-backgroundCanvas" class="js-backgroundCanvas"></canvas>
+  <img
+    id="js-backgroundImgPattern"
+    src="/images/city.png"
+    alt="backgroundimg"
+  />
   <body>
     <canvas id="js-canvas" class="js-canvas"></canvas>
     <!-- Brush size, Color picker, Buttons -->
@@ -24,9 +34,11 @@
       </div>
       <!--Fill, Save / Undo, Redo -->
       <div class="controls-btns">
-        <button id="js-mode">Fill</button><button id="js-save">Save</button>
+        <button id="js-mode"><i class="fas fa-fill"></i> Fill</button
+        ><button id="js-save"><i class="fas fa-download"></i> Save</button>
         <div class="unredo">
-          <button id="js-undo">Undo</button><button id="js-redo">Redo</button>
+          <button id="js-undo"><i class="fas fa-undo-alt"></i> Undo</button
+          ><button id="js-redo"><i class="fas fa-redo-alt"></i> Redo</button>
         </div>
       </div>
       <!-- Color picker -->
