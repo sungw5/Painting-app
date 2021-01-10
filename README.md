@@ -10,3 +10,4 @@
     - more css
 
     
+![alt text](https://github.com/sungw5/Tyler-Oh/blob/master/src/assets/img/painting-example.jpg?raw=true)
